@@ -1,0 +1,16 @@
+services:
+  studio:
+    build: .
+    ports: ['127.0.0.1:4310:4310']
+    env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      CODEX_PATH: ''
+      CODEX_HOME: /home/node/.codex
+    volumes:
+      - studio-state:/app/.local
+      - codex-auth:/home/node/.codex
+    restart: unless-stopped
+volumes:
+  studio-state:
+  codex-auth:

@@ -2,7 +2,7 @@
 
 **Windows quick start (dependencies already installed):** run `./start.cmd` from this folder or double-click `start.cmd`. It starts the app directly with Node and does not require pnpm on your terminal's PATH. Keep the launcher window open while using the app.
 
-**The community creates. The community plays. Codex ships.** Describe a starting game. Play the preview. Publish a bee garden and invite viewers into one shared world. Every bee contributes to the same goal. Twitch chat proposes changes and votes on a winner. Codex writes a TypeScript rule file. Four checks run before the shared garden adopts the patch. Rollback preserves the hive's progress.
+**The community creates. The community plays. Codex ships.** A creator describes a starting game, tries a private preview, and publishes it. Choose shooter, survival, or collection across space, ocean, garden, and neon themes. The bee garden shown in the demo is one example a creator can make: viewers join one shared world and collect nectar toward the same goal. Twitch chat proposes changes and votes on a winner. Codex writes a TypeScript rule file. Four checks run before the shared garden adopts the patch. Rollback preserves the hive's progress.
 
 **Try multiplayer without credentials:** double-click `try-multiplayer.cmd` after installing dependencies and building. Open http://127.0.0.1:4312/ for the owner desk and http://127.0.0.1:4312/?view=play in two or more tabs. Choose different guest names, join, then start the shared round from the owner desk. Use WASD, arrow keys, or touch to collect nectar. This launcher loads a reviewed garden in rehearsal mode and preserves a separate save. See [multiplayer controls and verification](docs/MULTIPLAYER.md).
 

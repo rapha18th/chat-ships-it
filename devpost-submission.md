@@ -12,11 +12,13 @@ A Twitch community has ideas worth playing. Turning those ideas into a shared ga
 
 ## Solution
 
-Chat Ships It gives a channel one world to create, play, and evolve together.
+Chat Ships It is a game-creation studio for streamers and their communities. A creator describes a starting game. Codex builds it. The community helps shape what happens next.
 
-The streamer describes a game. Codex generates a blueprint. The streamer plays a private preview and publishes it. In the shared bee garden, viewers open a player link, choose a guest name, and join the hive. Every bee collects nectar for the same goal.
+The creator chooses shooter, survival, or collection and describes a world. Space, ocean, garden, and neon themes support ship, submarine, bee, and orb avatars. Codex generates a playable blueprint. The creator tries a private preview and publishes it.
 
-Twitch chat proposes the next change with `!mod`. Viewers vote with `1`, `2`, or `3`. The streamer approves the winner. Codex writes an actual TypeScript rule file. Four validation checks run. The new rule reaches every connected bee in the same room. Rollback preserves the shared round and its progress.
+The bee garden in the film is one example a creator can make. In that example, viewers open a player link, choose guest names, and collect nectar toward the same shared goal.
+
+Twitch chat proposes the next change with `!mod`. Viewers vote with `1`, `2`, or `3`. The streamer approves the winner. Codex writes an actual TypeScript rule file. Four validation checks run. The game adopts the winning rule. In the multiplayer garden example, the change reaches every connected bee in the same room. Rollback preserves the shared round and its progress.
 
 ## Why This Matters
 

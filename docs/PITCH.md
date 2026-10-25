@@ -2,7 +2,9 @@
 
 The community creates. The community plays. Codex ships.
 
-Give a Twitch channel one world to build and play together. The streamer describes the starting game. Codex creates it. Viewers join the bee garden and collect nectar for the same team. Chat proposes a change, votes, and watches Codex ship the winning rule to every bee.
+Give creators a studio for games their communities help shape. A creator describes a shooter, survival, or collection game. Codex creates a private playable preview. The creator publishes it, then chat proposes and votes on its next change.
+
+The bee garden in the film is one example a creator can make. It demonstrates cooperative play: viewers collect nectar together, then watch a winning rule reach every bee in the shared room.
 
 The proof is a shared round: three connected players, one clock, one score, a real Twitch proposal, and a real Codex patch. Rainbow Nectar shipped in 23.751 seconds and passed four checks. Patch and rollback preserved player IDs, score, team goal, and remaining time.
 

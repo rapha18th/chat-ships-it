@@ -49,6 +49,8 @@ Tests cover hostile syntax, bounded schemas, all three example mods, vote change
 
 ## How it works
 
+![Chat Ships It system architecture](docs/images/architecture.png)
+
 - `apps/web`: Shared bee garden, solo game engines, responsive streamer desk, guest player view, OBS overlay.
 - `apps/server`: Authoritative multiplayer simulation, Fastify HTTP + WebSocket hub, round state machine, Twitch EventSub OAuth/reconnect, Gemini proposal screening, Codex SDK worker.
 - `packages/core`: strict mod schema, literal-only TypeScript AST parser, deterministic validation simulation, shared protocol.

@@ -32,7 +32,9 @@ Generated TypeScript exports a declarative object. A literal-only AST parser, st
 
 The demonstration uses Gemini narration and an original Lyria instrumental soundtrack. Three scripted clients play through the real multiplayer protocol. Their labels remain visible in the film.
 
-## How We Used Codex
+## How we built it
+
+![Chat Ships It system architecture](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/005/700/923/datas/original.png)
 
 Codex helped implement the product, Twitch EventSub connection, game creator, validation pipeline, shared simulation, interface, tests, and film tools. We iterated from an individual game session to cooperative play so the community could experience its own changes together. Codex also runs inside the finished product to generate each new game and approved patch.
 

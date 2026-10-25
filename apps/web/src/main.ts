@@ -434,3 +434,5 @@ function connect() {
   ws.onerror = () => ws.close();
 }
 connect();
+if (new URLSearchParams(location.search).has('capture'))
+  void import('./capture.ts').then(({ setupCapture }) => setupCapture(() => game.restart()));

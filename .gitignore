@@ -6,3 +6,5 @@ apps/web/dist/
 .local/
 *.log
 artifacts/
+.devpost-hackathon-state.json
+scripts/__pycache__/

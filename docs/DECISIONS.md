@@ -63,7 +63,7 @@ The source review found a draft visibility defect, fixed with authenticated proj
 
 ## Unverified / pending
 
-Personal eligibility/registration; official Twitch CLI mock and long-running reconnect resilience; sustained Gemini quota/latency; Docker sandbox behavior; stream capture and final entry. Real OAuth, EventSub proposal delivery and chat-to-code shipping passed on @rapha18th. No `codex debug models` capability was assumed or invoked.
+Personal eligibility declarations; official Twitch CLI mock and long-running reconnect resilience; sustained Gemini quota/latency; Docker sandbox behavior; final entry. Devpost registration was confirmed through the connected plugin on October 25. Real OAuth, EventSub proposal delivery and chat-to-code shipping passed on @rapha18th. No `codex debug models` capability was assumed or invoked.
 
 ## Gemini model update — October 25, 2026
 

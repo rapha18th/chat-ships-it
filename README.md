@@ -2,7 +2,7 @@
 
 **Windows quick start (dependencies already installed):** run `./start.cmd` from this folder or double-click `start.cmd`. It starts the app directly with Node and does not require pnpm on your terminal's PATH. Keep the launcher window open while using the app.
 
-**Chat writes the patch notes.** Twitch viewers propose game changes, vote on a winner, and watch a real Codex worker write a bounded TypeScript rule file. The validator gates it, then the game adopts the patch without restarting. The streamer can roll back or stop every mod.
+**The streamer creates. The community decides. Codex ships.** Describe a starting game. Play the preview. Publish it. Twitch viewers propose changes and vote on a winner. A real Codex worker writes the rule file. Four validation checks run before the game adopts the patch. The streamer can roll back or restore the starting rules.
 
 ## Run it
 
@@ -52,10 +52,10 @@ Tests cover hostile syntax, bounded schemas, all three example mods, vote change
 - `packages/core`: strict mod schema, literal-only TypeScript AST parser, deterministic validation simulation, shared protocol.
 - `scripts`: reproducible integration and real-agent smoke checks.
 
-Generated mods are actual TypeScript files exporting a declarative rule object. The host parses the syntax and hands a validated manifest to reviewed engine code. It never runs generated JavaScript. This trades unrestricted plugins for a bounded, predictable stage experience. See [docs/DECISIONS.md](docs/DECISIONS.md) for rationale and exact limits.
+Generated mods are actual TypeScript files exporting a declarative rule object. The host parses the syntax and hands a validated manifest to reviewed engine code. Each manifest operates within the engine's defined capabilities. See [docs/DECISIONS.md](docs/DECISIONS.md) for rationale and exact limits.
 
 ## Current limits
 
 Live Twitch and Gemini have been exercised on @rapha18th, including a real chat-to-Codex-to-game round. Confidence votes are in-app votes with no currency or prizes; native Twitch Predictions/Polls, Channel Points redemptions, bot replies and raid transfer are deferred. Game runs in separate browser sources are independent simulations sharing the same active rule, so capture the playing window when the broadcast must show the exact same run. Published games and current rules persist locally; partial votes and unpublished drafts reset on server restart. Docker files are provided but Docker deployment has not been verified on this machine.
 
-Official event requirements and the remaining submission work are recorded in [docs/PITCH.md](docs/PITCH.md). No public repository, stream or submission has been created.
+The controlled demonstration on @rapha18th used real Twitch messages, one owner-account vote, and real Codex generation. Rainbow Honeyglow shipped in 21.354 seconds and passed all four checks. The film labels the controlled demo and compressed build wait. Production sources and methods are documented in [docs/FILM-PRODUCTION.md](docs/FILM-PRODUCTION.md). The Devpost entry remains pending.

@@ -4,7 +4,7 @@ Event: https://twitchcon-codex.devpost.com/
 
 Official rules and form requirements were read through the Devpost plugin on October 25, 2026. The entrant acknowledged the terms and supplied all personal declarations and survey answers. Those answers remain in the ignored local file .local/devpost-entrant-answers.json.
 
-The local formal draft is devpost-submission.md. It covers the product, AI and Codex use, architecture, verified features, judge instructions, known limits, and exact technical form answers. No final entry has been sent.
+The local formal draft is devpost-submission.md. It covers the product, AI and Codex use, architecture, verified features, judge instructions, known limits, and exact technical form answers. Entry verified live: https://devpost.com/software/chat-ships-it . Confirmation 1264111.
 
 ## Prepared
 
@@ -22,9 +22,9 @@ The local formal draft is devpost-submission.md. It covers the product, AI and C
 
 The film labels three scripted demo players, the controlled owner-account vote, and the condensed build wait. Source artifacts and evidence stay under ignored artifacts/multiplayer-film.
 
-## Remaining
+## Completed
 
-Upload Chat-Ships-It-Multiplayer.mp4 publicly to YouTube and supply its watch link. Attach the prepared images and exact answers to the formal entry, run the final readiness check, and obtain final confirmation before sending it.
+The public YouTube film is https://www.youtube.com/watch?v=mj5plic752c . The branded title and logo thumbnail, three gallery images, source link, exact form answers, and confirmed declarations were attached. Devpost returned Submitted, and a live readback confirmed the recorded entry.
 
 The official deadline is November 2, 2026 at 2:00 pm Pacific, which is November 3 at 00:00 SAST. Target November 2 at 23:00 SAST.
 

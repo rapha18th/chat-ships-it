@@ -89,13 +89,13 @@ Assets are under the ignored local `artifacts/multiplayer-film` directory. The f
 
 ## Submission Readiness Notes
 
-Rules acknowledged by the entrant on October 25, 2026. The connected account is registered and official requirements were read through the Devpost plugin. Local entry copy and evidence are prepared. Final entry awaits final confirmation.
+Rules acknowledged by the entrant on October 25, 2026. The connected account is registered and official requirements were read through the Devpost plugin. Local entry copy and evidence are prepared. Entry verified live on Devpost on October 25, 2026: https://devpost.com/software/chat-ships-it . Submission confirmation: 1264111.
 
 ## Known Limitations
 
 Shared multiplayer currently supports the garden collector with a bee avatar. Other engines run solo. Guest names are unverified. Round progress lives in server memory. The room allows 24 seats; testing exercised three concurrent players. Remote viewers require a reachable hosted address. The film's scripted clients demonstrate functionality; audience turnout and a production-scale load test are unmeasured.
 
-## TODO Official Form Fields
+## Official Form Fields
 
 Prepared answers for the live form, checked October 25, 2026:
 
@@ -106,4 +106,4 @@ Prepared answers for the live form, checked October 25, 2026:
 | 29290 Technical requirement | Codex helped build the application and powers runtime game creation and live TypeScript rule generation. Twitch OAuth and EventSub deliver real chat proposals and votes. Approved rules pass four checks before reaching the shared garden. The film shows actual Twitch messages and actual Codex generation. |
 | 29291 Streamer and community usage | The streamer describes, previews, and publishes the starting world. Viewers join the shared garden through a player link and collect nectar together. Twitch chat proposes changes and votes. The streamer approves the winner. Codex ships it to every bee, and rollback preserves the team's progress. |
 
-Personal declarations and survey answers supplied by the entrant are saved privately in `.local/devpost-entrant-answers.json`. The entrant supplied the YouTube watch link on October 25, 2026. Final confirmation is required before sending the complete entry.
+Personal declarations and survey answers supplied by the entrant are saved privately in `.local/devpost-entrant-answers.json`. The entrant supplied the YouTube watch link on October 25, 2026. The entrant gave final confirmation. Devpost returned Submitted and the live project readback confirmed the hackathon entry.

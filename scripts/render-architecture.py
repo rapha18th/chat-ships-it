@@ -1,75 +1,69 @@
-"""Render a source-verified architecture figure for the Devpost write-up."""
+"""Service map: platform icons, compact components, and protocol-labeled flows."""
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 import math
-
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'docs/images/architecture.png'
-OUT.parent.mkdir(parents=True,exist_ok=True)
-im=Image.new('RGB',(2040,1500),'#f6f5f1');d=ImageDraw.Draw(im)
-INK='#171717';GRAY='#626366';PURPLE='#9146ff';LINE='#cbc9c4';WHITE='#ffffff'
-def f(n,bold=False,mono=False):
-    return ImageFont.truetype('C:/Windows/Fonts/'+('consola.ttf' if mono else 'arialbd.ttf' if bold else 'arial.ttf'),n)
-def text(x,y,s,size=25,color=INK,bold=False,mono=False):d.text((x,y),s,font=f(size,bold,mono),fill=color)
-def arrow(points,color=INK,dashed=False):
-    for a,b in zip(points,points[1:]):
-        if dashed:
-            length=math.dist(a,b)
-            for t in range(0,int(length),19):
-                u=t/length;v=min(1,(t+10)/length)
-                d.line((a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u,a[0]+(b[0]-a[0])*v,a[1]+(b[1]-a[1])*v),fill=color,width=3)
-        else:d.line((a,b),fill=color,width=3)
-    a,b=points[-2:];angle=math.atan2(b[1]-a[1],b[0]-a[0]);p=[b]
-    for da in [-.5,.5]:p.append((b[0]-15*math.cos(angle+da),b[1]-15*math.sin(angle+da)))
-    d.polygon(p,fill=color)
-def box(x,y,w,title,lines,accent=INK,tag=''):
-    d.rounded_rectangle((x,y,x+w,y+190),radius=9,fill=WHITE,outline=LINE,width=2)
-    d.rectangle((x,y,x+6,y+190),fill=accent)
-    if tag:text(x+24,y+18,tag,18,accent,True,True)
-    text(x+24,y+56,title,29,INK,True)
-    for i,s in enumerate(lines):text(x+24,y+103+i*31,s,23,GRAY)
-
-text(80,55,'CHAT SHIPS IT',22,INK,True,True)
-text(80,105,'From community idea to playable rule.',56,INK,True)
-text(80,178,'SYSTEM ARCHITECTURE  /  TYPESCRIPT + FASTIFY + CANVAS',21,GRAY,False,True)
-text(80,242,'01  CREATE A STARTING GAME',23,INK,True,True)
-xs=[80,550,1020,1490];w=420
-# Connections are drawn first so ports terminate cleanly at the component boundary.
-for y,col in [(390,INK),(770,PURPLE)]:
-    for a,b in zip(xs,xs[1:]):arrow([(a+w,y),(b,y)],col)
-box(80,295,w,'Creator brief',['Choose an engine + world','Describe the starting game'],tag='BROWSER / OWNER')
-box(550,295,w,'Gemini screening',['Admit supported capabilities','Produce a neutral specification'],tag='AI / SPECIFICATION')
-box(1020,295,w,'Codex SDK worker',['Generate TypeScript blueprint','Stream build activity'],tag='AI / GENERATION')
-box(1490,295,w,'Checks + private preview',['Validate the blueprint','Owner plays, then publishes'],tag='APPLICATION / REVIEW')
-
-text(80,586,'02  EVOLVE IT THROUGH TWITCH',23,PURPLE,True,True)
-box(80,675,w,'Twitch chat',['!mod proposals + viewer votes','OAuth + EventSub'],PURPLE,'TWITCH / EVENTS')
-box(550,675,w,'Gemini screening',['Screen proposal text','Normalize the capability spec'],PURPLE,'AI / SPECIFICATION')
-box(1020,675,w,'Vote + owner approval',['One vote per viewer','Streamer approves the winner'],PURPLE,'APPLICATION / CONTROL')
-box(1490,675,w,'Codex patch + checks',['Generate literal rule object','Validate before applying'],INK,'AI + APPLICATION')
-arrow([(290,865),(290,920),(1230,920),(1230,865)],PURPLE,True)
-text(500,886,'Vote events go directly to the ballot.',20,PURPLE,False,True)
-# Creation and live changes converge on the existing published world.
-arrow([(1910,390),(1970,390),(1970,987),(610,987),(610,1100)],INK)
-arrow([(1910,770),(1970,770)],INK)
-d.rectangle((720,963,1330,1008),fill='#f6f5f1')
-text(750,971,'PUBLISH BLUEPRINT / APPLY RULE',20,INK,True,True)
-
-text(80,1050,'03  PLAY IN THE SHARED WORLD',23,INK,True,True)
-box(80,1100,550,'Fastify + state hub',['Published blueprint + active rules','Persisted world / rollback controls'],tag='SERVER / CONTROL STATE')
-box(750,1100,550,'Authoritative shared room',['20 Hz movement, collisions + score','One team goal + one clock'],tag='SERVER / GARDEN EXAMPLE')
-box(1420,1100,550,'Canvas player clients',['Render matching shared snapshots','Keyboard + touch steering'],tag='BROWSER / PLAYERS')
-arrow([(630,1195),(750,1195)])
-text(649,1150,'rules',18,GRAY,False,True)
-arrow([(1300,1170),(1420,1170)])
-text(1307,1118,'10 Hz',18,GRAY,False,True)
-arrow([(1420,1253),(1300,1253)],PURPLE)
-text(1310,1270,'inputs',18,PURPLE,False,True)
-
-d.line((80,1340,1970,1340),fill=LINE,width=2)
-text(80,1364,'FOUR CHECKS',18,INK,True,True)
-text(300,1364,'Literal-only AST  /  schema + bounds  /  deterministic simulation  /  validation budget',21,INK)
-text(80,1404,'A rejected artifact leaves current rules active. One repair attempt returns validation diagnostics to Codex.',21,GRAY)
-text(80,1442,'Creator engines: shooter, survival, collector. Shared multiplayer: bee garden example. Other engines run solo.',20,GRAY)
-im.save(OUT,optimize=True)
-print(OUT)
+W,H=2000,1150
+im=Image.new('RGB',(W,H),'#ffffff');d=ImageDraw.Draw(im)
+INK='#151515';GRAY='#6a6870';PURPLE='#9146ff';EDGE='#38343e'
+def font(n,b=False,mono=False):return ImageFont.truetype('C:/Windows/Fonts/'+('consola.ttf' if mono else 'arialbd.ttf' if b else 'arial.ttf'),n)
+def label(x,y,s,n=25,c=INK,b=False,mono=False):d.text((x,y),s,font=font(n,b,mono),fill=c,anchor='mt')
+def arrow(points,c=EDGE,both=False):
+ d.line(points,fill=c,width=3,joint='curve')
+ def tip(a,b):
+  t=math.atan2(b[1]-a[1],b[0]-a[0]);d.polygon([b,(b[0]-13*math.cos(t-.45),b[1]-13*math.sin(t-.45)),(b[0]-13*math.cos(t+.45),b[1]-13*math.sin(t+.45))],fill=c)
+ tip(points[-2],points[-1])
+ if both:tip(points[1],points[0])
+def logo(path,cx,cy,side):
+ a=Image.open(ROOT/path).convert('RGBA');box=a.getbbox();a=a.crop(box) if box else a;a.thumbnail((side,side),Image.Resampling.LANCZOS);im.paste(a,(round(cx-a.width/2),round(cy-a.height/2)),a)
+def card(rect,title,sub,icon=None):
+ x,y,r,b=rect;d.rounded_rectangle(rect,radius=22,fill='white',outline='#403b49',width=2)
+ cx=(x+r)//2
+ if icon=='spark':
+  px,py=cx,y+39;d.polygon([(px,py-20),(px+7,py-6),(px+20,py),(px+7,py+6),(px,py+20),(px-7,py+6),(px-20,py),(px-7,py-6)],fill='#8c7be5')
+ elif icon=='shield':
+  px,py=cx,y+35;d.line([(px-20,py-16),(px,py-23),(px+20,py-16),(px+17,py+8),(px,py+23),(px-17,py+8),(px-20,py-16)],fill=INK,width=3);d.line([(px-9,py),(px-2,py+7),(px+10,py-8)],fill=INK,width=3)
+ elif icon=='server':
+  px,py=cx,y+36
+  for k in [-12,10]:d.rounded_rectangle((px-25,py+k-7,px+25,py+k+7),radius=4,outline=INK,width=3);d.ellipse((px+12,py+k-2,px+16,py+k+2),fill=INK)
+ label(cx,y+72,title,28,INK,True);label(cx,y+111,sub,22,GRAY,False,True)
+# Project identity remains distinct from service-provider marks.
+d.text((90,50),'Chat Ships It',font=font(64,True),fill=INK)
+d.text((92,129),'SYSTEM ARCHITECTURE',font=font(20,False,True),fill=GRAY)
+# Sparse grouping and fine texture follow the technical reference figures.
+d.rounded_rectangle((575,350,1445,1050),radius=40,fill='#f6f2ff',outline='#a291c6',width=2)
+for x in range(595,1430,14):
+ for y in range(371,1034,14):
+  if (x-615)**2+(y-390)**2>300:d.point((x,y),fill='#d5caec')
+label(1010,379,'APPLICATION SERVER',19,GRAY,False,True)
+# Event and control paths.
+arrow([(340,510),(680,510)],PURPLE);label(507,535,'EventSub',22,PURPLE,False,True)
+arrow([(340,210),(510,210),(510,465),(680,465)])
+label(507,165,'brief / approval',20,GRAY,False,True)
+arrow([(860,280),(860,430)],both=True);label(960,321,'screen',20,GRAY,False,True)
+arrow([(1050,500),(1570,500)]);label(1305,452,'approved spec',22,INK,False,True)
+arrow([(1810,510),(1900,510),(1900,835),(1360,835)])
+label(1700,792,'TypeScript',22,INK,False,True)
+arrow([(1100,835),(970,835)]);label(1035,792,'rules',20,GRAY,False,True)
+arrow([(650,807),(350,807)]);label(493,765,'10 Hz snapshots',20,INK,False,True)
+arrow([(350,882),(650,882)],PURPLE);label(490,900,'inputs',20,PURPLE,False,True)
+# Creator: a browser node, kept secondary to the two platforms.
+d.rounded_rectangle((160,174,300,250),radius=8,fill='white',outline=INK,width=3);d.line((160,193,300,193),fill=INK,width=2)
+for x in [173,184,195]:d.ellipse((x,181,x+4,185),fill=GRAY)
+label(230,267,'Creator',30,INK,True)
+# The official platform symbols remain unaltered.
+logo(Path('assets/brand/vendor/twitch-glitch.png'),230,510,170)
+label(230,625,'Twitch',36,INK,True);label(230,672,'Proposals + votes',23,GRAY)
+logo(Path('assets/brand/vendor/openai-blossom.png'),1700,510,170)
+label(1700,625,'OpenAI Codex',36,INK,True);label(1700,672,'Games + patches',23,GRAY)
+card((730,130,990,280),'Gemini','Screen specs','spark')
+card((680,430,1050,580),'Fastify','Vote + approval','server')
+card((1100,760,1360,910),'Validation','4 checks','shield')
+card((650,760,970,910),'Shared engine','20 Hz simulation','server')
+label(810,953,'Garden example',20,GRAY,False,True)
+# Player clients: three small screens signal fan-out without explaining it in prose.
+for x,y in [(169,776),(207,799),(245,776)]:
+ d.rounded_rectangle((x,y,x+70,y+48),radius=5,fill='white',outline=INK,width=3);d.line((x+35,y+48,x+35,y+59),fill=INK,width=3);d.line((x+19,y+60,x+51,y+60),fill=INK,width=3)
+label(230,951,'Canvas clients',30,INK,True)
+OUT.parent.mkdir(parents=True,exist_ok=True);im.save(OUT,optimize=True);print(OUT)

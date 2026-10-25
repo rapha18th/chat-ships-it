@@ -82,7 +82,7 @@ def cards():
     im,d=base('Every patch earns its place.','The accepted artifact passed all four checks.')
     for i,g in enumerate(s['gates']):
         y=425+i*115
-        d.text((100,y),'✓',font=font(40,True),fill=LIME)
+        d.ellipse((103,y+8,131,y+36),fill=LIME)
         d.text((165,y),g['name'],font=font(33,True),fill=WHITE)
         words(d,g['detail'],(165,y+48),1540,23)
     d.text((1200,900),f"{s['buildMs']/1000:.1f}s REAL CODEX BUILD",font=font(29,True),fill=LIME)
@@ -125,7 +125,8 @@ if __name__=='__main__':
     jobs=[('still','opening',4),('clip','world',14,0),('still','create',11),('still','preview',12),('still','chat',13),('still','vote',13),('clip','build',18,5,1.5),('clip','patch',7,2),('clip','control',10,15),('still','checks',15),('still','codex',23),('clip','patch',12,0)]
     for i,j in enumerate(jobs):
         output=f'shot-{i:02}.mp4'
-        if '--resume' in sys.argv and i not in [0,2,3,4,5,9,10] and (OUT/output).exists():continue
+        refresh=[9] if '--checks-only' in sys.argv else [0,2,3,4,5,9,10]
+        if ('--resume' in sys.argv or '--checks-only' in sys.argv) and i not in refresh and (OUT/output).exists():continue
         if j[0]=='still':still(j[1],j[2],output)
         else:clip(j[1],j[3],j[2],output,j[4] if len(j)>4 else 1,'CONTROLLED TWITCH DEMO  /  BUILD WAIT CONDENSED' if j[1]=='build' else None)
         print(f'{output} ready',flush=True)

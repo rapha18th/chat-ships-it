@@ -10,7 +10,7 @@ The target is the starting game's target score multiplied by the number of bees 
 
 For immediate credential-free play, run `try-multiplayer.cmd` after installing dependencies and building. It validates and saves a reviewed garden in `.local/rehearsal-garden.json`, keeps existing rehearsal progress, disables live Codex generation, and starts on port 4312. Join through `http://127.0.0.1:4312/?view=play` from several browser tabs. The owner starts the round at `http://127.0.0.1:4312/`. Rehearsal patches use clearly labeled reviewed examples. Live game creation and Twitch require the normal setup.
 
-The normal launcher uses port 4310. This machine also has a multiplayer launcher because the existing elevated Windows process could not be replaced. Run `start-multiplayer.cmd` for the updated build on port 4311. It uses a separate `.local/world-multiplayer.json` file and restores the existing Twitch authorization.
+The normal launcher uses port 4310. Run `start-multiplayer.cmd` for an alternate instance on port 4311. It uses a separate `.local/world-multiplayer.json` file and the configured Twitch authorization.
 
 - Studio: http://127.0.0.1:4311/
 - Player: http://127.0.0.1:4311/?view=play

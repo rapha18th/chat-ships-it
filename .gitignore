@@ -8,3 +8,24 @@ apps/web/dist/
 artifacts/
 .devpost-hackathon-state.json
 scripts/__pycache__/
+
+# Private collaboration, strategy, and submission working material.
+/AGENTS.md
+/devpost-submission.md
+/docs/PITCH.md
+/docs/PLAN.md
+/docs/SUBMISSION.md
+/docs/FILM-PRODUCTION.md
+/docs/DECISIONS.md
+.internal/
+.private/
+internal/
+strategy/
+transcripts/
+conversations/
+.codex/
+.agents/
+/docs/internal/
+/docs/strategy/
+/docs/STRATEGY*.md
+/docs/*-internal.md

@@ -1,32 +1,34 @@
-# Submission pack
+# Submission readiness
 
-Official event: https://twitchcon-codex.devpost.com/
+Event: https://twitchcon-codex.devpost.com/
 
-Rules read directly in the browser on October 25: https://twitchcon-codex.devpost.com/rules
+Official data was read through the connected Devpost plugin on 2026-10-25. The account is registered. The event is accepting entries. No project entry has been sent to Devpost.
 
-Deadline: **November 2, 2026, 2:00 pm Pacific / November 3, 00:00 SAST**. Target November 2 at 23:00 SAST to leave a buffer.
+## Ready
 
-Main build chat: **Build Chat Ships It**
+- Public source and setup instructions: https://github.com/rapha18th/chat-ships-it
+- A working owner game creator with private preview and publishing.
+- Shooter, survival, and collection engines across four worlds.
+- Real Twitch chat proposals and voting on @rapha18th.
+- Real Codex generation. The recorded rainbow patch shipped in 21.354 seconds and passed four checks.
+- Verified rollback, persisted worlds, and 17 passing tests.
+- A 1080p film of approximately 2 minutes 32 seconds with captions, Gemini narration, and an original Lyria score.
+- A thumbnail and YouTube upload text under the local ignored artifacts/film directory.
+- Main build chat: Build Chat Ships It.
+- Main Codex session ID: 01a1726e-fe77-78e0-a787-399855bb9955.
 
-Main Codex session ID: **01a1726e-fe77-78e0-a787-399855bb9955** (verified against the desktop app’s thread inventory). Use this build chat, not a runtime mod thread or the review session.
+The film uses a controlled demonstration. The owner account sends the proposals and one vote through real Twitch chat. The film labels this activity and the compressed build wait. No independent viewer turnout is claimed.
 
-## Ready locally
+## Entrant inputs
 
-- Project source, lockfile, run instructions, credential guide, CI and Docker files.
-- Draft description and 2:50–3:00 video beats in `PITCH.md`; record under three minutes.
-- Real Codex SDK generation smoke: 14,385 ms.
-- Real studio vote → approval → Codex → validation → ship: **14,453 ms**. Reviewed proposal, example author, real generated mechanic. No Twitch connection was used in that test.
-- Ten automated tests pass, including a local WebSocket mock for EventSub welcome/subscription and account replacement. This is not the official Twitch CLI mock server and does not prove real Twitch account integration.
-- HTTP/WebSocket rehearsal smoke passes, including origin rejection, voting, ship, rollback and stop.
-- Desktop 1920×1080 and mobile 390×844 layouts visually checked. Real-build screenshot: `artifacts/studio-live.jpg` (local, ignored by Git).
-- Codex review found three P2 defects (OAuth port, old channel socket, stale votes); fixed with regression coverage. Initial workspace review could not initialize Windows tools; retry reviewed the supplied patch directly.
+The pending form asks for rules acknowledgment, submitter type, country of residence, the three eligibility declarations, and the two personal survey answers required by the live form. These values must come from the entrant.
 
-## Remaining for a valid entry
+The final film must be uploaded publicly to YouTube. The resulting watch link goes into the entry.
 
-- Entrant confirms age, residence and other eligibility requirements and joins the event.
-- Add Twitch app credentials and Gemini key, then verify a real viewer’s proposal through screening and Codex on the actual channel.
-- Record functioning Twitch footage and Codex build footage, with permission for any externally supplied material; upload the final video publicly to YouTube.
-- Publish source to GitHub/GitLab/Bitbucket and provide judging access. Private GitHub/GitLab repositories must be shared with the judging address in the rules.
-- Fill the Devpost entry with the repository URL, description, video URL and main build-session ID. Entrant reviews and submits the entry before the deadline.
+## Entry fields
 
-No event registration, public repository, video upload, stream or Devpost submission was performed in this local build.
+The live form requires a repository URL, the main build-session ID, an explanation of Codex and Twitch use, and an explanation of how streamers and their community use the product. The project also needs its title, tagline, description, technology tags, and video URL. Formal entry preparation remains gated on the required rules acknowledgment.
+
+The official deadline is November 2, 2026 at 2:00 pm Pacific. That is November 3 at 00:00 SAST. Target November 2 at 23:00 SAST.
+
+Official rules: https://twitchcon-codex.devpost.com/rules

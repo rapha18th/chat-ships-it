@@ -16,6 +16,7 @@ import { GenreSchema } from '../../../packages/core/src/blueprint.ts';
 import { loadWorld, saveWorld } from './world.ts';
 import { codeFor } from '../../../packages/core/src/catalog.ts';
 import { visibleState } from './visibility.ts';
+import { Hive } from './hive.ts';
 
 const host = process.env.HOST || '127.0.0.1',
   port = Number(process.env.PORT || 4310);
@@ -24,7 +25,10 @@ if (!localOnly && (!process.env.ADMIN_TOKEN || process.env.ADMIN_TOKEN.length < 
   throw new Error('Set ADMIN_TOKEN to 24+ random characters before exposing the server.');
 const app = Fastify({ logger: false, bodyLimit: 16000 });
 const wss = new WebSocketServer({ noServer: true, maxPayload: 1024 });
+const hiveSockets = new WebSocketServer({ noServer: true, maxPayload: 512 });
+const hive = new Hive();
 const owners = new WeakSet<WebSocket>();
+const worldFile = process.env.WORLD_FILE || '.local/world.json';
 let savedSignature = '',
   saveTail = Promise.resolve(),
   shuttingDown = false;
@@ -35,7 +39,7 @@ const round = new Round(
     if (!shuttingDown && signature !== savedSignature) {
       savedSignature = signature;
       saveTail = saveTail
-        .then(() => saveWorld(world))
+        .then(() => saveWorld(world, worldFile))
         .catch(() => console.error('Local game persistence failed.'));
     }
     for (const client of wss.clients)
@@ -51,7 +55,7 @@ const round = new Round(
   500,
   process.env.ENABLE_CODEX === 'true' ? gameBuilder : undefined,
 );
-const savedWorld = await loadWorld();
+const savedWorld = await loadWorld(worldFile);
 if (savedWorld) {
   Object.assign(round.state, savedWorld);
   round.state.source = codeFor(savedWorld.active);
@@ -108,7 +112,9 @@ app.get('/api/health', async () => ({
   geminiConfigured: !!process.env.GEMINI_API_KEY,
   twitchConfigured: !!process.env.TWITCH_CLIENT_ID && !!process.env.TWITCH_CLIENT_SECRET,
   adminRequired: !localOnly || !!process.env.ADMIN_TOKEN,
+  multiplayer: true,
 }));
+app.get('/api/hive', async () => hive.snapshot());
 app.post('/api/action', async (req, reply) => {
   const body = z
     .object({
@@ -126,6 +132,8 @@ app.post('/api/action', async (req, reply) => {
         'bet',
         'publish-game',
         'discard-game',
+        'hive-start',
+        'hive-pause',
       ]),
       id: z.string().optional(),
       choice: z.enum(['ship', 'fail']).optional(),
@@ -134,6 +142,13 @@ app.post('/api/action', async (req, reply) => {
     .strict()
     .parse(req.body);
   switch (body.action) {
+    case 'hive-start':
+      hive.sync(round.state.game, round.state.gameRevision, round.state.active);
+      hive.start();
+      break;
+    case 'hive-pause':
+      hive.pause();
+      break;
     case 'publish-game':
       round.publishGame();
       break;
@@ -243,7 +258,7 @@ else {
   });
 }
 app.server.on('upgrade', (req, socket, head) => {
-  if (req.url !== '/ws') {
+  if (req.url !== '/ws' && req.url !== '/hive') {
     socket.destroy();
     return;
   }
@@ -253,6 +268,68 @@ app.server.on('upgrade', (req, socket, head) => {
     !(localOnly && req.headers.origin === `http://127.0.0.1:${port}`)
   ) {
     socket.destroy();
+    return;
+  }
+  if (req.url === '/hive') {
+    if (hiveSockets.clients.size >= 64) {
+      socket.destroy();
+      return;
+    }
+    hiveSockets.handleUpgrade(req, socket, head, (ws) => {
+      let playerId: string | null = null,
+        at = Date.now(),
+        count = 0;
+      ws.send(JSON.stringify({ type: 'hive-state', state: hive.snapshot() }));
+      ws.on('message', (raw, isBinary) => {
+        if (isBinary) return;
+        if (Date.now() - at > 1000) {
+          at = Date.now();
+          count = 0;
+        }
+        if (++count > 40) {
+          ws.close(1008, 'Input rate exceeded');
+          return;
+        }
+        try {
+          const m = JSON.parse(raw.toString());
+          if (m.type === 'hive-join' && !playerId) {
+            const { name } = z
+              .object({ type: z.literal('hive-join'), name: z.string().min(2).max(18) })
+              .strict()
+              .parse(m);
+            playerId = hive.join(name);
+            ws.send(JSON.stringify({ type: 'hive-welcome', id: playerId }));
+          } else if (m.type === 'hive-input' && playerId) {
+            const input = z
+              .object({
+                type: z.literal('hive-input'),
+                dx: z.number().finite().min(-1).max(1),
+                dy: z.number().finite().min(-1).max(1),
+                sequence: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
+              })
+              .strict()
+              .parse(m);
+            hive.input(playerId, input.dx, input.dy, input.sequence);
+          }
+        } catch (error) {
+          ws.send(
+            JSON.stringify({
+              type: 'hive-error',
+              message:
+                error instanceof z.ZodError
+                  ? 'Invalid garden input'
+                  : error instanceof Error
+                    ? error.message
+                    : 'Join failed',
+            }),
+          );
+        }
+      });
+      ws.on('close', () => {
+        if (playerId) hive.leave(playerId);
+      });
+      ws.on('error', () => ws.terminate());
+    });
     return;
   }
   wss.handleUpgrade(req, socket, head, (ws) => {
@@ -274,6 +351,18 @@ app.server.on('upgrade', (req, socket, head) => {
     });
   });
 });
+let hiveFrame = 0;
+const hiveTimer = setInterval(() => {
+  hive.sync(round.state.game, round.state.gameRevision, round.state.active);
+  hive.step(0.05);
+  if (++hiveFrame % 2) return;
+  const payload = JSON.stringify({ type: 'hive-state', state: hive.snapshot() });
+  for (const ws of hiveSockets.clients)
+    if (ws.readyState === WebSocket.OPEN) {
+      if (ws.bufferedAmount > 1e6) ws.terminate();
+      else ws.send(payload);
+    }
+}, 50);
 await app.listen({ host, port });
 console.log(
   `Chat Ships It is ready at ${origin} · ${process.env.ENABLE_CODEX === 'true' ? 'Codex enabled' : 'rehearsal ready'}`,
@@ -282,6 +371,9 @@ void twitch.restore();
 const shutdown = async () => {
   shuttingDown = true;
   twitch.close();
+  clearInterval(hiveTimer);
+  for (const client of hiveSockets.clients) client.terminate();
+  hiveSockets.close();
   round.stop();
   wss.close();
   for (const c of wss.clients) c.terminate();

@@ -413,7 +413,11 @@ function connect() {
   activeSocket = ws;
   ws.onopen = () => {
     connected = true;
-    if (!overlay && !gameOnly)
+    if (
+      !overlay &&
+      !gameOnly &&
+      !['play', 'hive'].includes(new URLSearchParams(location.search).get('view') || '')
+    )
       ws.send(
         JSON.stringify({ type: 'authenticate', token: sessionStorage.getItem('adminToken') || '' }),
       );
@@ -434,5 +438,14 @@ function connect() {
   ws.onerror = () => ws.close();
 }
 connect();
-if (new URLSearchParams(location.search).has('capture'))
-  void import('./capture.ts').then(({ setupCapture }) => setupCapture(() => game.restart()));
+void import('./hive.ts').then(({ setupHive }) => {
+  const readHive = setupHive();
+  if (new URLSearchParams(location.search).has('capture'))
+    void import('./capture.ts').then(({ setupCapture }) =>
+      setupCapture(
+        () => game.restart(),
+        () => state,
+        readHive,
+      ),
+    );
+});

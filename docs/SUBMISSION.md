@@ -2,33 +2,30 @@
 
 Event: https://twitchcon-codex.devpost.com/
 
-Official data was read through the connected Devpost plugin on 2026-10-25. The account is registered. The event is accepting entries. No project entry has been sent to Devpost.
+Official rules and form requirements were read through the Devpost plugin on October 25, 2026. The entrant acknowledged the terms and supplied all personal declarations and survey answers. Those answers remain in the ignored local file .local/devpost-entrant-answers.json.
 
-## Ready
+The local formal draft is devpost-submission.md. It covers the product, AI and Codex use, architecture, verified features, judge instructions, known limits, and exact technical form answers. No final entry has been sent.
 
-- Public source and setup instructions: https://github.com/rapha18th/chat-ships-it
-- A working owner game creator with private preview and publishing.
-- Shooter, survival, and collection engines across four worlds.
-- Real Twitch chat proposals and voting on @rapha18th.
-- Real Codex generation. The recorded rainbow patch shipped in 21.354 seconds and passed four checks.
-- Verified rollback, persisted worlds, and 17 passing tests.
-- A 1080p film of approximately 2 minutes 32 seconds with captions, Gemini narration, and an original Lyria score.
-- A thumbnail and YouTube upload text under the local ignored artifacts/film directory.
+## Prepared
+
+- Public repository: https://github.com/rapha18th/chat-ships-it
+- Owner game creation, private preview, publish, and discard.
+- Shared bee garden, guest player link, three verified concurrent clients, and one team score and clock.
+- Real Twitch proposals and voting on @rapha18th.
+- Real Codex patch: Rainbow Nectar, 23.751 seconds, four checks passed.
+- Verified patch and rollback continuity in the same three-player room.
+- 21 passing tests, type check, and production build.
+- Credential-free reviewed garden launcher and complete live setup instructions.
+- A 1080p multiplayer film, captions, original Gemini narration, original Lyria score, thumbnail, and YouTube upload text.
 - Main build chat: Build Chat Ships It.
-- Main Codex session ID: 01a1726e-fe77-78e0-a787-399855bb9955.
+- Codex session ID: 01a1726e-fe77-78e0-a787-399855bb9955.
 
-The film uses a controlled demonstration. The owner account sends the proposals and one vote through real Twitch chat. The film labels this activity and the compressed build wait. No independent viewer turnout is claimed.
+The film labels three scripted demo players, the controlled owner-account vote, and the condensed build wait. Source artifacts and evidence stay under ignored artifacts/multiplayer-film.
 
-## Entrant inputs
+## Remaining
 
-The pending form asks for rules acknowledgment, submitter type, country of residence, the three eligibility declarations, and the two personal survey answers required by the live form. These values must come from the entrant.
+Upload Chat-Ships-It-Multiplayer.mp4 publicly to YouTube and supply its watch link. Attach the prepared images and exact answers to the formal entry, run the final readiness check, and obtain final confirmation before sending it.
 
-The final film must be uploaded publicly to YouTube. The resulting watch link goes into the entry.
-
-## Entry fields
-
-The live form requires a repository URL, the main build-session ID, an explanation of Codex and Twitch use, and an explanation of how streamers and their community use the product. The project also needs its title, tagline, description, technology tags, and video URL. Formal entry preparation remains gated on the required rules acknowledgment.
-
-The official deadline is November 2, 2026 at 2:00 pm Pacific. That is November 3 at 00:00 SAST. Target November 2 at 23:00 SAST.
+The official deadline is November 2, 2026 at 2:00 pm Pacific, which is November 3 at 00:00 SAST. Target November 2 at 23:00 SAST.
 
 Official rules: https://twitchcon-codex.devpost.com/rules

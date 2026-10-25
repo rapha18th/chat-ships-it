@@ -32,3 +32,14 @@ The controlled Twitch round accepted two proposals from the owner's account and 
 GitHub CLI publication behavior was checked on 2026-10-25 against https://cli.github.com/manual/gh_repo_create . The repository contains source and setup instructions. Credential files, local state, generated media, and local tool binaries are excluded. `scripts/check-publish-secrets.mjs` checks tracked paths and commit patches before publication.
 
 Audio review uses `gemini-3.8-flash` with inline audio through the documented Interactions API. The current audio-input contract was verified on 2026-10-25 at https://ai.google.dev/gemini-api/docs/audio . The review transcribed the finished narration and reported clear speech, balanced background music, instrumental music, and no material audio issue. This is an automated review. The final file also passed codec, resolution, and duration inspection with FFprobe.
+# Multiplayer edition, October 25, 2026
+
+The current entry film is `Chat-Ships-It-Multiplayer.mp4`, approximately 152 seconds at 1920 by 1080. It centers on three bees in one authoritative server room. These are scripted demonstration clients with explicit on-screen labels. Each owns a separate WebSocket connection and sends ordinary direction inputs. The server produces positions, nectar, collisions, score, and time.
+
+The streamer created Nectar Glow through the actual Codex creator, previewed it, and published it. Real Twitch messages from @rapha18th supplied two proposals and one vote. The winning rainbow patch used the actual Codex worker, shipped in 23.751 seconds, and passed all four checks. Recorded snapshots verify patch and rollback preserved the same room, player IDs, score, target, and clock. The build wait is condensed and labeled. Beauty shots use separately started rounds in the same published game.
+
+`scripts/edit-multiplayer-film.py` assembles actual server capture, real creation and Twitch screenshots, product cards, captions, six original Gemini narration clips, and the original Lyria instrumental. `scripts/film-audio.mjs multiplayer` reproduces the narration. Official model and endpoint sources remain in the vendor verification notes below.
+
+The recorder consumes existing WebSocket state without additional polling. An earlier capture exceeded the API polling limit and produced an invalid take; that take was excluded. Replacement clips were checked before export. The earlier solo film remains preserved separately.
+
+Final multiplayer QA: H.264 video, AAC audio, 1920 by 1080, exactly 152 seconds, 11,494,546 bytes. A contact sheet was inspected across the timeline. Gemini reviewed the exported soundtrack and found clear speech, balanced instrumental music, and no material clipping, artifacts, or unexpected words. The final MP4, thumbnail, and YouTube upload copy are in Downloads.

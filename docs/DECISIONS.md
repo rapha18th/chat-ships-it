@@ -70,3 +70,10 @@ Personal eligibility declarations; official Twitch CLI mock and long-running rec
 The configured model is now `gemini-3.8-flash`. Verified [Google’s catalog](https://ai.google.dev/gemini-api/docs/models) and [model page](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash): stable ID, structured outputs supported, recommended for new projects. Google describes 2.5 access as restricted to existing users rather than formally deprecated. The old default was unsuitable for this new project.
 
 Updated both code fallbacks and `.env.example`, preserving the user’s `.env`. Live checks passed: supported proposal accepted, safe display text accepted, instruction injection rejected locally. Run `pnpm exec tsx scripts/check-gemini.ts` to repeat. Current official docs and registry metadata are now required before version/model/integration choices, recorded globally and in project AGENTS.md.
+# Multiplayer decision, October 25, 2026
+
+The garden collector runs in one authoritative server simulation. Player sockets send bounded steering input. The server owns positions, entities, collisions, score, and the clock. Rule patches update this existing room. Rollback restores rules while preserving progress. Publishing a new starting game resets the room and retains seats. The room permits 24 bees; verification and the controlled film exercised three concurrent clients.
+
+Official ws documentation checked October 25, 2026: https://github.com/websockets/ws/blob/master/doc/ws.md . The integration uses the existing dependency and documented upgrade, message, ready-state, payload-limit, send, close, and bufferedAmount APIs. No package, model ID, or external endpoint changed for multiplayer.
+
+The judge launcher validates a reviewed garden in an isolated save and rehearsal mode. It provides immediate cooperative play without credentials. Live creation and Twitch remain covered by the normal setup.

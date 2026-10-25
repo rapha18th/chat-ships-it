@@ -1,11 +1,19 @@
 import 'dotenv/config';
 import {mkdir, writeFile} from 'node:fs/promises';
-const root = 'artifacts/film';
+const multiplayer=process.argv.includes('multiplayer');
+const root = multiplayer?'artifacts/multiplayer-film':'artifacts/film';
 await mkdir(root, {recursive:true});
 const key = process.env.GEMINI_API_KEY;
 if (!key) throw new Error('Gemini key missing');
 const endpoint = 'https://generativelanguage.googleapis.com/v1beta';
-const sections = [
+const sections = multiplayer ? [
+  ['01-intro','This garden belongs to everyone. Three bees. One world. One shared goal. A community that creates the rules and plays the game together. This is Chat Ships It.'],
+  ['02-create','The streamer describes a garden. Codex creates a playable starting game. The owner previews it and publishes it. Viewers open the player link, choose a guest name, and join the same world.'],
+  ['03-chat','Here we are using three scripted demo players connected to the real multiplayer server. Each bee moves independently. Nectar collected by any bee counts toward the same team goal. Every client receives the same positions, score, and clock.'],
+  ['04-build','Now the community changes its world. A proposal arrives through real Twitch chat. We send a vote from the owner account for this controlled demo. Codex writes the winning patch. The checks pass. Every bee gets the rainbow trail. The shared round continues.'],
+  ['05-control','The streamer can roll back the patch for everyone. Player positions, the shared score, and the remaining time stay together. The community keeps its progress. The streamer starts the next round when the hive is ready.'],
+  ['06-codex','We built the studio with Codex. It helped implement Twitch EventSub, the authoritative multiplayer engine, the interface, and the tests. Inside the product, Codex creates games and writes live patches. Gemini screens ideas before they reach the coding worker. The community creates. The community plays. Codex ships. Every stream gets a game of its own.'],
+] : [
   ['01-intro', 'A game begins with an idea. A tiny bee. A glowing garden. One minute to gather the nectar. Now give that world to your community. This is Chat Ships It.'],
   ['02-create', 'The channel owner describes a world and chooses a challenge. Codex creates a playable game. The owner tries it, then publishes it. Three engines. Four worlds. One place to begin.'],
   ['03-chat', 'Now chat gets a turn. We are using a controlled demonstration on our own Twitch channel. The messages travel through Twitch and arrive in the studio. A proposal becomes a choice. The community votes. The streamer approves the build.'],

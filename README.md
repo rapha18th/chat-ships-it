@@ -2,7 +2,9 @@
 
 **Windows quick start (dependencies already installed):** run `./start.cmd` from this folder or double-click `start.cmd`. It starts the app directly with Node and does not require pnpm on your terminal's PATH. Keep the launcher window open while using the app.
 
-**The streamer creates. The community decides. Codex ships.** Describe a starting game. Play the preview. Publish it. Twitch viewers propose changes and vote on a winner. A real Codex worker writes the rule file. Four validation checks run before the game adopts the patch. The streamer can roll back or restore the starting rules.
+**The community creates. The community plays. Codex ships.** Describe a starting game. Play the preview. Publish a bee garden and invite viewers into one shared world. Every bee contributes to the same goal. Twitch chat proposes changes and votes on a winner. Codex writes a TypeScript rule file. Four checks run before the shared garden adopts the patch. Rollback preserves the hive's progress.
+
+**Try multiplayer without credentials:** double-click `try-multiplayer.cmd` after installing dependencies and building. Open http://127.0.0.1:4312/ for the owner desk and http://127.0.0.1:4312/?view=play in two or more tabs. Choose different guest names, join, then start the shared round from the owner desk. Use WASD, arrow keys, or touch to collect nectar. This launcher loads a reviewed garden in rehearsal mode and preserves a separate save. See [multiplayer controls and verification](docs/MULTIPLAYER.md).
 
 ## Run it
 
@@ -47,8 +49,8 @@ Tests cover hostile syntax, bounded schemas, all three example mods, vote change
 
 ## How it works
 
-- `apps/web`: Canvas survival game, responsive streamer desk, read-only OBS overlay.
-- `apps/server`: Fastify HTTP + WebSocket hub, round state machine, Twitch EventSub OAuth/reconnect, Gemini proposal screening, Codex SDK worker.
+- `apps/web`: Shared bee garden, solo game engines, responsive streamer desk, guest player view, OBS overlay.
+- `apps/server`: Authoritative multiplayer simulation, Fastify HTTP + WebSocket hub, round state machine, Twitch EventSub OAuth/reconnect, Gemini proposal screening, Codex SDK worker.
 - `packages/core`: strict mod schema, literal-only TypeScript AST parser, deterministic validation simulation, shared protocol.
 - `scripts`: reproducible integration and real-agent smoke checks.
 
@@ -56,6 +58,6 @@ Generated mods are actual TypeScript files exporting a declarative rule object. 
 
 ## Current limits
 
-Live Twitch and Gemini have been exercised on @rapha18th, including a real chat-to-Codex-to-game round. Confidence votes are in-app votes with no currency or prizes; native Twitch Predictions/Polls, Channel Points redemptions, bot replies and raid transfer are deferred. Game runs in separate browser sources are independent simulations sharing the same active rule, so capture the playing window when the broadcast must show the exact same run. Published games and current rules persist locally; partial votes and unpublished drafts reset on server restart. Docker files are provided but Docker deployment has not been verified on this machine.
+Live Twitch and Gemini have been exercised on @rapha18th. Multiplayer supports the garden collector with a bee avatar, up to 24 connected seats. Three simultaneous clients were verified. Other game engines run solo. Guest names are unverified. Confidence votes have no currency or prizes. Native Twitch Predictions/Polls, Channel Points, bot replies and raid transfer are deferred. Published games and current rules persist locally; shared round progress, partial votes and unpublished drafts reset on server restart. Remote viewers need a reachable hosted server; the demonstration currently runs locally. Docker deployment has not been verified on this machine.
 
-The controlled demonstration on @rapha18th used real Twitch messages, one owner-account vote, and real Codex generation. Rainbow Honeyglow shipped in 21.354 seconds and passed all four checks. The film labels the controlled demo and compressed build wait. Production sources and methods are documented in [docs/FILM-PRODUCTION.md](docs/FILM-PRODUCTION.md). The Devpost entry remains pending.
+The multiplayer demonstration used three explicitly labeled scripted players, real Twitch messages, one owner-account vote, and real Codex generation. Rainbow Nectar shipped in 23.751 seconds and passed four checks. Integration verification confirmed patch and rollback preserved the same round, three player IDs, team score, target, and remaining time. The film labels its scripted players and compressed build wait. See [production methods](docs/FILM-PRODUCTION.md). The Devpost entry remains pending.

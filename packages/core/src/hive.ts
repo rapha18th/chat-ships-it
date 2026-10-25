@@ -1,0 +1,30 @@
+import type { Mod } from './catalog.ts';
+export type HivePlayer = {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  hull: number;
+  points: number;
+  color: string;
+  protected: boolean;
+};
+export type HiveEntity = { id: number; x: number; y: number; r: number };
+export type HiveState = {
+  enabled: boolean;
+  room: string;
+  round: number;
+  tick: number;
+  phase: 'waiting' | 'playing' | 'won' | 'lost';
+  remaining: number;
+  score: number;
+  target: number;
+  title: string;
+  players: HivePlayer[];
+  nectar: HiveEntity[];
+  hazards: HiveEntity[];
+  pickups: (HiveEntity & { kind: string })[];
+  rules: Mod;
+};

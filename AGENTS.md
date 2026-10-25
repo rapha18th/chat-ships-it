@@ -1,7 +1,8 @@
 # Chat Ships It
 
 Use TypeScript. Run pnpm check, pnpm test, pnpm build before commits.
-Never read, print, commit or send .env, .local credentials, or Codex auth files.
+Load credentials only for authorized app execution or integration validation. Never display, log, commit, or send credential files or their contents to unrelated services.
+Before selecting or changing dependencies, model IDs, endpoints or integration settings, check current official vendor docs and package registry metadata. Verify lifecycle and compatibility, then record source links and the check date in docs/DECISIONS.md. Do not choose these from memory.
 Never label rehearsal, sample, or simulated agent activity as live Codex output.
 The only executable game logic is reviewed engine code. Generated mods are
 declarative TypeScript object literals, parsed as syntax and never evaluated.

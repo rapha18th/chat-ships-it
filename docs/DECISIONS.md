@@ -4,20 +4,20 @@ Recorded October 25, 2026, Africa/Johannesburg. Official API pages were fetched 
 
 ## Verified implementation
 
-| Item             | Choice / evidence                                                                                                                                                                                                          |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Runtime          | Node 24.18.0, pnpm 11.25.0                                                                                                                                                                                                 |
-| Codex SDK        | `@openai/codex-sdk` 0.164.0; installed TypeScript definitions inspected                                                                                                                                                    |
-| Web server       | Fastify 5.12.7, `@fastify/static` 8.3.0, ws 8.22.0                                                                                                                                                                         |
-| Client           | Vite 8.3.5, Canvas 2D, TypeScript 5.9.3                                                                                                                                                                                    |
-| Schema           | Zod 4.6.7; literal AST extraction with TypeScript compiler                                                                                                                                                                 |
-| Auth             | Existing ChatGPT CLI sign-in, confirmed with `codex login status`                                                                                                                                                          |
-| Model            | Unspecified; use account default. No fabricated availability or speed comparison                                                                                                                                           |
-| Measured latency | One real Codex SDK build: 14,385 ms; 18,322 input tokens and 144 output tokens; all gates passed                                                                                                                           |
-| Twitch identity  | OAuth channel-owner user token, `user:read:chat` only                                                                                                                                                                      |
-| EventSub         | `wss://eventsub.wss.twitch.tv/ws`; `POST https://api.twitch.tv/helix/eventsub/subscriptions`; type `channel.chat.message`, version `1`; condition `broadcaster_user_id` and `user_id` both signed-in broadcaster           |
-| OAuth            | `https://id.twitch.tv/oauth2/authorize`, `https://id.twitch.tv/oauth2/token`, `https://id.twitch.tv/oauth2/validate`; single-use random state, ten-minute lifetime                                                         |
-| Gemini           | `POST https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent`; `x-goog-api-key` header; JSON structured response schema. Initial configurable model `gemini-2.5-flash`, not account-tested |
+| Item             | Choice / evidence                                                                                                                                                                                                                                          |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Runtime          | Node 24.18.0, pnpm 11.25.0                                                                                                                                                                                                                                 |
+| Codex SDK        | `@openai/codex-sdk` 0.164.0; installed TypeScript definitions inspected                                                                                                                                                                                    |
+| Web server       | Fastify 5.12.7, `@fastify/static` 8.3.0, ws 8.22.0                                                                                                                                                                                                         |
+| Client           | Vite 8.3.5, Canvas 2D, TypeScript 5.9.3                                                                                                                                                                                                                    |
+| Schema           | Zod 4.6.7; literal AST extraction with TypeScript compiler                                                                                                                                                                                                 |
+| Auth             | Existing ChatGPT CLI sign-in, confirmed with `codex login status`                                                                                                                                                                                          |
+| Model            | Unspecified; use account default. No fabricated availability or speed comparison                                                                                                                                                                           |
+| Measured latency | One real Codex SDK build: 14,385 ms; 18,322 input tokens and 144 output tokens; all gates passed                                                                                                                                                           |
+| Twitch identity  | OAuth channel-owner user token, `user:read:chat` only                                                                                                                                                                                                      |
+| EventSub         | `wss://eventsub.wss.twitch.tv/ws`; `POST https://api.twitch.tv/helix/eventsub/subscriptions`; type `channel.chat.message`, version `1`; condition `broadcaster_user_id` and `user_id` both signed-in broadcaster                                           |
+| OAuth            | `https://id.twitch.tv/oauth2/authorize`, `https://id.twitch.tv/oauth2/token`, `https://id.twitch.tv/oauth2/validate`; single-use random state, ten-minute lifetime                                                                                         |
+| Gemini           | `POST https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent`; `x-goog-api-key` header; JSON structured response schema. Current default `gemini-3.8-flash`, verified in official docs and account-tested October 25, 2026 |
 
 `pnpm-lock.yaml` pins the entire resolved dependency tree. The Google Fonts stylesheet is optional visual polish; system fallbacks work offline.
 
@@ -53,4 +53,10 @@ The gate validates syntax/capabilities, property bounds, finite state in a 3,600
 
 ## Unverified / pending
 
-Personal eligibility; real Twitch OAuth/EventSub and reconnect behavior; Gemini account model/quota and display-text moderation responses; Docker sandbox behavior; actual stream capture and submission. No `codex debug models` capability was assumed or invoked.
+Personal eligibility; real Twitch OAuth/EventSub and reconnect behavior; sustained Gemini quota/latency; Docker sandbox behavior; actual stream capture and submission. No `codex debug models` capability was assumed or invoked.
+
+## Gemini model update — October 25, 2026
+
+The configured model is now `gemini-3.8-flash`. Verified [Google’s catalog](https://ai.google.dev/gemini-api/docs/models) and [model page](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash): stable ID, structured outputs supported, recommended for new projects. Google describes 2.5 access as restricted to existing users rather than formally deprecated. The old default was unsuitable for this new project.
+
+Updated both code fallbacks and `.env.example`, preserving the user’s `.env`. Live checks passed: supported proposal accepted, safe display text accepted, instruction injection rejected locally. Run `pnpm exec tsx scripts/check-gemini.ts` to repeat. Current official docs and registry metadata are now required before version/model/integration choices, recorded globally and in project AGENTS.md.

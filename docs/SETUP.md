@@ -16,7 +16,7 @@ Chat commands: `!mod <idea>`, `1` / `2` / `3`, `!bet ship`, `!bet fail`. Broadca
 
 ## 2. Gemini proposal screening
 
-Get a key from [Google AI Studio → API keys](https://aistudio.google.com/apikey), set `GEMINI_API_KEY` in `.env`, and restart. `GEMINI_MODEL` is configurable; `gemini-2.5-flash` is the initial default. Confirm availability and quota for your account; this integration has not been exercised with a key here.
+Get a key from [Google AI Studio → API keys](https://aistudio.google.com/apikey), set `GEMINI_API_KEY` in `.env`, and restart. `GEMINI_MODEL` is configurable; `gemini-3.8-flash` is the default, verified against current official model documentation on October 25, 2026. Live proposal screening and display-text moderation both passed with the configured key. Run `pnpm exec tsx scripts/check-gemini.ts` to repeat those checks; this consumes Gemini usage.
 
 Free-form proposals fail closed when Gemini is unavailable. Raw ideas are sent only to the screener, never to Codex or the public feed. Codex receives the neutral capability spec. Only three finalists are retained. Twitch screening is capped at two concurrent requests, twelve attempts per minute, and one attempt per viewer per 30 seconds. Accepted proposals get a separate cooldown. Screening that finishes after a round reset cannot enter the new round.
 

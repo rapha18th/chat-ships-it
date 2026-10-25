@@ -11,7 +11,7 @@
     "dev": "tsx apps/server/src/index.ts",
     "build": "tsc --noEmit && vite build apps/web --outDir dist",
     "start": "tsx apps/server/src/index.ts",
-    "test": "tsx --test packages/core/src/core.test.ts apps/server/src/round.test.ts apps/server/src/twitch.test.ts",
+    "test": "tsx --test packages/core/src/*.test.ts apps/server/src/*.test.ts",
     "check": "tsc --noEmit",
     "smoke": "tsx scripts/smoke.ts"
   },

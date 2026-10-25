@@ -1,5 +1,7 @@
 # Chat Ships It ↗
 
+**Windows quick start (dependencies already installed):** run `./start.cmd` from this folder or double-click `start.cmd`. It starts the app directly with Node and does not require pnpm on your terminal's PATH. Keep the launcher window open while using the app.
+
 **Chat writes the patch notes.** Twitch viewers propose game changes, vote on a winner, and watch a real Codex worker write a bounded TypeScript rule file. The validator gates it, then the game adopts the patch without restarting. The streamer can roll back or stop every mod.
 
 ## Run it
@@ -20,6 +22,10 @@ On PowerShell use `Copy-Item .env.example .env` for the copy step. Open **http:/
 **Try the real agent:** enable `ENABLE_CODEX=true` after `codex login`; Settings → Try real Codex with reviewed starter ideas → close Settings → vote → approve the build. This calls the actual Codex SDK, consumes plan usage, and streams real event summaries. Sample viewer names remain labeled as examples. No Gemini key is needed for reviewed starter ideas.
 
 The game starts in a labeled autopilot attract mode. Click the canvas for manual play: **W / ↑** thrust, **A D / ← →** turn, **Space** shoot, **R** restart. On touch, hold to steer and shoot. Sound is optional.
+
+## Create your channel's starting game
+
+Click **Create a game**, choose shooter, dodger or collector, and describe your world. Codex generates a playable preview; publish it when ready, then let chat evolve its rules. Space, ocean, garden and neon worlds support ship, submarine, bee and orb avatars. See [the game creator guide](docs/GAME-CREATOR.md) for supported capabilities and controls.
 
 ## Live channel setup
 
@@ -50,6 +56,6 @@ Generated mods are actual TypeScript files exporting a declarative rule object. 
 
 ## Current limits
 
-Live Twitch and Gemini require your credentials and have not been exercised on your channel. Confidence votes are in-app votes with no currency or prizes; native Twitch Predictions/Polls, Channel Points redemptions, bot replies and raid transfer are deferred. Game runs in separate browser sources are independent simulations sharing the same active rule, so capture the playing window when the broadcast must show the exact same run. State is in memory and resets on server restart. Docker files are provided but Docker deployment has not been verified on this machine.
+Live Twitch and Gemini have been exercised on @rapha18th, including a real chat-to-Codex-to-game round. Confidence votes are in-app votes with no currency or prizes; native Twitch Predictions/Polls, Channel Points redemptions, bot replies and raid transfer are deferred. Game runs in separate browser sources are independent simulations sharing the same active rule, so capture the playing window when the broadcast must show the exact same run. Published games and current rules persist locally; partial votes and unpublished drafts reset on server restart. Docker files are provided but Docker deployment has not been verified on this machine.
 
 Official event requirements and the remaining submission work are recorded in [docs/PITCH.md](docs/PITCH.md). No public repository, stream or submission has been created.

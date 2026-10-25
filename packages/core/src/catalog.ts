@@ -9,7 +9,7 @@ export const ModSchema = z
     palette: z.enum(['mint', 'violet', 'amber', 'rose', 'ice']),
     gravity: z.number().min(-1.5).max(1.5),
     gravityFlipSeconds: z.number().min(0).max(30),
-    asteroidStyle: z.enum(['rock', 'duck', 'disco', 'heart']),
+    asteroidStyle: z.enum(['rock', 'duck', 'disco', 'heart', 'jellyfish', 'thorn']),
     asteroidSpeed: z.number().min(0.25).max(2),
     splitCount: z.number().int().min(0).max(4),
     pickup: z.enum(['shield', 'slowmo', 'magnet']),
@@ -65,5 +65,5 @@ export const SAMPLES: Mod[] = [
     scoreMultiplier: 2,
   },
 ];
-export const codeFor = (mod: Mod) =>
+export const codeFor = <T extends Mod>(mod: T) =>
   `// Chat Ships It · bounded engine capabilities\nexport default ${JSON.stringify(mod, null, 2)};\n`;

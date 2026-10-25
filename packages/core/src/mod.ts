@@ -1,8 +1,10 @@
 import ts from 'typescript';
 import { ModSchema, type Mod } from './catalog.ts';
+import { GameSchema, rulesFromGame, type GameDefinition } from './blueprint.ts';
+import { codeFor } from './catalog.ts';
 export * from './catalog.ts';
 
-export function parseMod(source: string): Mod {
+export function parseLiteral(source: string): Record<string, unknown> {
   if (Buffer.byteLength(source) > 12000) throw new Error('Mod exceeds 12 KB');
   const file = ts.createSourceFile(
     'candidate.ts',
@@ -44,9 +46,29 @@ export function parseMod(source: string): Mod {
       result[key] = -Number(value.operand.text);
     else throw new Error('Executable expressions are forbidden: use literal values');
   }
-  const mod = ModSchema.parse(result);
+  return result;
+}
+export function parseMod(source: string): Mod {
+  const mod = ModSchema.parse(parseLiteral(source));
   if (/[<>\u0000-\u001f]/.test(mod.title + mod.description)) throw new Error('Unsafe display text');
   return mod;
+}
+export function validateGame(source: string): { game: GameDefinition; gates: Gate[] } {
+  const game = GameSchema.parse(parseLiteral(source));
+  if (/[<>\u0000-\u001f]/.test(game.title + game.description + game.objective))
+    throw new Error('Unsafe display text');
+  const { gates } = validateMod(codeFor(rulesFromGame(game)));
+  return {
+    game,
+    gates: [
+      ...gates,
+      {
+        name: 'Game blueprint',
+        ok: true,
+        detail: `${game.genre} engine · ${game.roundSeconds}s round · bounded movement, spawns and win condition.`,
+      },
+    ],
+  };
 }
 export type Gate = { name: string; ok: boolean; detail: string };
 export function validateMod(source: string): { mod: Mod; gates: Gate[] } {

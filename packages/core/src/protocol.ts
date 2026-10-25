@@ -1,4 +1,5 @@
 import type { Mod, Gate } from './mod.ts';
+import type { GameDefinition } from './blueprint.ts';
 export type Phase =
   | 'collecting'
   | 'voting'
@@ -34,4 +35,9 @@ export type State = {
   usage: { input_tokens: number; output_tokens: number; cached_input_tokens: number } | null;
   bets: { ship: number; fail: number };
   twitch: { connected: boolean; channel: string | null };
+  game: GameDefinition | null;
+  gameRevision: number;
+  draft: GameDefinition | null;
+  creatingGame: boolean;
+  previewAwaitingOwner?: boolean;
 };

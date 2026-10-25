@@ -8,10 +8,14 @@ import { resolve } from 'node:path';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { z } from 'zod';
 import { Round } from './round.ts';
-import { codexBuilder } from './worker.ts';
+import { codexBuilder, gameBuilder } from './worker.ts';
 import { Twitch } from './twitch.ts';
 import { screen } from './screen.ts';
 import { publicOrigin } from './config.ts';
+import { GenreSchema } from '../../../packages/core/src/blueprint.ts';
+import { loadWorld, saveWorld } from './world.ts';
+import { codeFor } from '../../../packages/core/src/catalog.ts';
+import { visibleState } from './visibility.ts';
 
 const host = process.env.HOST || '127.0.0.1',
   port = Number(process.env.PORT || 4310);
@@ -20,17 +24,39 @@ if (!localOnly && (!process.env.ADMIN_TOKEN || process.env.ADMIN_TOKEN.length < 
   throw new Error('Set ADMIN_TOKEN to 24+ random characters before exposing the server.');
 const app = Fastify({ logger: false, bodyLimit: 16000 });
 const wss = new WebSocketServer({ noServer: true, maxPayload: 1024 });
+const owners = new WeakSet<WebSocket>();
+let savedSignature = '',
+  saveTail = Promise.resolve(),
+  shuttingDown = false;
 const round = new Round(
   (s) => {
-    const message = JSON.stringify({ type: 'state', state: s });
+    const world = { game: s.game, active: s.active, gameRevision: s.gameRevision, mode: s.mode },
+      signature = JSON.stringify(world);
+    if (!shuttingDown && signature !== savedSignature) {
+      savedSignature = signature;
+      saveTail = saveTail
+        .then(() => saveWorld(world))
+        .catch(() => console.error('Local game persistence failed.'));
+    }
     for (const client of wss.clients)
       if (client.readyState === WebSocket.OPEN) {
         if (client.bufferedAmount > 1e6) client.terminate();
-        else client.send(message);
+        else
+          client.send(
+            JSON.stringify({ type: 'state', state: visibleState(s, owners.has(client)) }),
+          );
       }
   },
   process.env.ENABLE_CODEX === 'true' ? codexBuilder : undefined,
+  500,
+  process.env.ENABLE_CODEX === 'true' ? gameBuilder : undefined,
 );
+const savedWorld = await loadWorld();
+if (savedWorld) {
+  Object.assign(round.state, savedWorld);
+  round.state.source = codeFor(savedWorld.active);
+  savedSignature = JSON.stringify(savedWorld);
+}
 const twitch = new Twitch(round);
 const origin = publicOrigin();
 const authorized = (header: string | undefined) => {
@@ -73,7 +99,9 @@ app.setErrorHandler((error, _req, reply) => {
     .code(error instanceof z.ZodError ? 400 : 409)
     .send({ error: error instanceof Error ? error.message : 'Request failed' });
 });
-app.get('/api/state', async () => round.state);
+app.get('/api/state', async (req) =>
+  visibleState(round.state, authorized(req.headers.authorization)),
+);
 app.get('/api/health', async () => ({
   ok: true,
   codexEnabled: process.env.ENABLE_CODEX === 'true',
@@ -96,6 +124,8 @@ app.post('/api/action', async (req, reply) => {
         'mode',
         'cast',
         'bet',
+        'publish-game',
+        'discard-game',
       ]),
       id: z.string().optional(),
       choice: z.enum(['ship', 'fail']).optional(),
@@ -104,6 +134,12 @@ app.post('/api/action', async (req, reply) => {
     .strict()
     .parse(req.body);
   switch (body.action) {
+    case 'publish-game':
+      round.publishGame();
+      break;
+    case 'discard-game':
+      round.discardGame();
+      break;
     case 'seed':
       round.seed();
       break;
@@ -152,11 +188,22 @@ app.post('/api/proposal', async (req) => {
   )
     throw new Error('Proposal window is full or closed');
   const roundId = round.state.round;
-  const result = await screen(idea);
+  const result = await screen(idea, round.state.game);
   if (!result.accepted) throw new Error(result.reason);
   if (round.state.round !== roundId || round.state.mode !== 'live')
     throw new Error('Round changed during screening. Submit again.');
   return round.addProposal(author, result.spec, result.spec);
+});
+app.post('/api/game/create', async (req, reply) => {
+  const { prompt, genre } = z
+    .object({ prompt: z.string().min(12).max(600), genre: GenreSchema })
+    .strict()
+    .parse(req.body);
+  if (round.busy()) throw new Error('Finish or stop the current round first.');
+  if (process.env.ENABLE_CODEX !== 'true')
+    throw new Error('Enable the authenticated Codex worker first.');
+  void round.createGame(prompt, genre).catch((error) => round.log(error.message, 'fail'));
+  return reply.code(202).send({ ok: true });
 });
 const oauthStates = new Map<string, number>();
 app.post('/api/twitch/connect', async () => {
@@ -209,7 +256,22 @@ app.server.on('upgrade', (req, socket, head) => {
     return;
   }
   wss.handleUpgrade(req, socket, head, (ws) => {
-    ws.send(JSON.stringify({ type: 'state', state: round.state }));
+    ws.send(JSON.stringify({ type: 'state', state: visibleState(round.state, false) }));
+    ws.on('message', (raw) => {
+      try {
+        const message = JSON.parse(raw.toString());
+        if (
+          message.type === 'authenticate' &&
+          typeof message.token === 'string' &&
+          authorized(`Bearer ${message.token}`)
+        ) {
+          owners.add(ws);
+          ws.send(JSON.stringify({ type: 'state', state: round.state }));
+        }
+      } catch {
+        /* Invalid client messages have no effect. */
+      }
+    });
   });
 });
 await app.listen({ host, port });
@@ -218,12 +280,14 @@ console.log(
 );
 void twitch.restore();
 const shutdown = async () => {
+  shuttingDown = true;
   twitch.close();
   round.stop();
   wss.close();
   for (const c of wss.clients) c.terminate();
   await vite?.close();
   await app.close();
+  await saveTail;
   process.exit(0);
 };
 process.on('SIGINT', shutdown);

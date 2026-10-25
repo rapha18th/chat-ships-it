@@ -39,6 +39,16 @@ Three mechanics are enough: tiny duck splitting, gravity reversal, and slow-moti
 
 The gate validates syntax/capabilities, property bounds, finite state in a 3,600-tick reference simulation, and a 500 ms validator time budget. The browser engine caps asteroids at 96, bullets at 80, pickups at 12 and particles at 240. It does **not** benchmark rendering across every device or prove every mechanic is fun. Runtime frame duration is measured by the engine, but it is not used as an agent promotion gate. Text is escaped before DOM insertion; Canvas text has no markup execution. Free-form proposal moderation is provided by Gemini, not claimed as a formal safety proof.
 
+## Owner game creator — October 25, 2026
+
+Added a second Codex artifact type: a flat, literal-only game blueprint. Shooter, dodger and collector engines have separate win conditions. Owners choose a mode, describe a world, play an isolated preview, then publish. Chat edits the installed rules afterward. Game creation never evaluates generated JavaScript. Ocean and garden hazards support explicit jellyfish/thorn styles as well as theme-aware rock rendering.
+
+The mod worker receives the installed rules as its baseline, preserving the owner-created game's setup. Published blueprints and rules persist atomically in `.local/world.json`; votes and drafts stay transient. Owner WebSockets authenticate in a message. Public projections strip unpublished blueprint, source, gates and creation feed. Loopback without an admin token is a trusted operator environment.
+
+Observed checks: real Twitch proposal → Six Second Flip, 23.010 seconds; owner generation → Honeyglow Hustle, 27.195 seconds; authenticated studio rainbow-trail patch → 21.184 seconds, preserving bee/garden/collector/magnet; rollback restored starting rules. An ocean/submarine dodger blueprint generated in 34.228 seconds. A real WebSocket check proved that spectators did not receive the draft and owner authentication revealed it. Studio tests are not presented as Twitch viewer votes.
+
+The source review found a draft visibility defect, fixed with authenticated projections and regression coverage. Touch mapping now accounts for letterboxing. Moderation gets the trusted game context and maps player/hazard synonyms into the Mod API. Package versions, SDK configuration and the Gemini model were unchanged; the verified official references below still apply for this date. See GAME-CREATOR.md for scope and controls.
+
 ## Primary sources
 
 - [OpenAI Codex SDK](https://developers.openai.com/codex/sdk) — SDK threads, streamed execution, structured configuration.
@@ -53,7 +63,7 @@ The gate validates syntax/capabilities, property bounds, finite state in a 3,600
 
 ## Unverified / pending
 
-Personal eligibility; real Twitch OAuth/EventSub and reconnect behavior; sustained Gemini quota/latency; Docker sandbox behavior; actual stream capture and submission. No `codex debug models` capability was assumed or invoked.
+Personal eligibility/registration; official Twitch CLI mock and long-running reconnect resilience; sustained Gemini quota/latency; Docker sandbox behavior; stream capture and final entry. Real OAuth, EventSub proposal delivery and chat-to-code shipping passed on @rapha18th. No `codex debug models` capability was assumed or invoked.
 
 ## Gemini model update — October 25, 2026
 

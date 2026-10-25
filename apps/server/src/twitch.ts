@@ -255,7 +255,7 @@ export class Twitch {
         this.screeningInFlight++;
         const roundId = round.state.round;
         try {
-          const result = await screen(text.slice(5).trim());
+          const result = await screen(text.slice(5).trim(), round.state.game);
           if (result.accepted && round.state.round === roundId && round.state.mode === 'live')
             round.addProposal(login, result.spec, result.spec);
         } finally {

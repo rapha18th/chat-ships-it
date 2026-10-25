@@ -71,7 +71,9 @@ https://github.com/rapha18th/chat-ships-it
 
 ## Demo Video
 
-Public YouTube URL: pending entrant upload of `Chat-Ships-It-Multiplayer.mp4`.
+Public YouTube URL: https://www.youtube.com/watch?v=mj5plic752c
+
+Received from the entrant on October 25, 2026. The local master is exactly 152 seconds.
 
 The film is approximately 2 minutes 32 seconds at 1920 by 1080. Sequence: shared garden; create and preview; player link; shared scoring; actual Twitch proposal and vote; actual Codex build; rainbow for all bees; rollback; implementation and verification. The build wait is condensed and labeled. The three players are scripted clients on the actual server. The vote uses one real owner account in a controlled demonstration.
 
@@ -87,7 +89,7 @@ Assets are under the ignored local `artifacts/multiplayer-film` directory. The f
 
 ## Submission Readiness Notes
 
-Rules acknowledged by the entrant on October 25, 2026. The connected account is registered and official requirements were read through the Devpost plugin. Local entry copy and evidence are prepared. Final entry awaits the public YouTube URL and final confirmation.
+Rules acknowledged by the entrant on October 25, 2026. The connected account is registered and official requirements were read through the Devpost plugin. Local entry copy and evidence are prepared. Final entry awaits final confirmation.
 
 ## Known Limitations
 
@@ -104,4 +106,4 @@ Prepared answers for the live form, checked October 25, 2026:
 | 29290 Technical requirement | Codex helped build the application and powers runtime game creation and live TypeScript rule generation. Twitch OAuth and EventSub deliver real chat proposals and votes. Approved rules pass four checks before reaching the shared garden. The film shows actual Twitch messages and actual Codex generation. |
 | 29291 Streamer and community usage | The streamer describes, previews, and publishes the starting world. Viewers join the shared garden through a player link and collect nectar together. Twitch chat proposes changes and votes. The streamer approves the winner. Codex ships it to every bee, and rollback preserves the team's progress. |
 
-Personal declarations and survey answers supplied by the entrant are saved privately in `.local/devpost-entrant-answers.json`. The only missing asset is the public YouTube watch link. Final confirmation is required when the complete entry is ready to send.
+Personal declarations and survey answers supplied by the entrant are saved privately in `.local/devpost-entrant-answers.json`. The entrant supplied the YouTube watch link on October 25, 2026. Final confirmation is required before sending the complete entry.

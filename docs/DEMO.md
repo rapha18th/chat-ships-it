@@ -1,6 +1,6 @@
 # Demo verification
 
-The [published demo](https://www.youtube.com/watch?v=mj5plic752c) shows a creator-made garden collection game. Three explicitly labeled scripted clients connect through the ordinary multiplayer join and input protocol. The server controls their positions, shared nectar, score, and clock.
+The [published demo](https://www.youtube.com/watch?v=LRW1DpWr15M) shows a creator-made garden collection game. Three explicitly labeled scripted clients connect through the ordinary multiplayer join and input protocol. The server controls their positions, shared nectar, score, and clock.
 
 Real Twitch proposals and one owner-account vote select the rainbow change. The actual Codex worker generates the TypeScript rule artifact. Rainbow Nectar shipped in 23.751 seconds and passed four checks. The build wait is condensed and labeled.
 
